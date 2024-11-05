@@ -52,6 +52,11 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
   });
 
   const provider = MODEL_LIST.find((model) => model.name === currentModel)?.provider || DEFAULT_PROVIDER;
+  console.log(`${provider} ${currentModel}`);
+  //console.log(JSON.stringify(env, null, 2));    
+  //console.log(JSON.stringify(processedMessages), null, 2) ;
+  const tmpContent=processedMessages[processedMessages.length - 1].content;
+  console.log(`Last message: ${tmpContent.split('\n').slice(0, 3).join('\n')} END`);
 
   return _streamText({
     model: getModel(provider, currentModel, env),

@@ -5,6 +5,7 @@ import { MAX_RESPONSE_SEGMENTS, MAX_TOKENS } from '~/lib/.server/llm/constants';
 import { CONTINUE_PROMPT } from '~/lib/.server/llm/prompts';
 import { streamText, type Messages, type StreamingOptions } from '~/lib/.server/llm/stream-text';
 import SwitchableStream from '~/lib/.server/llm/switchable-stream';
+import { MODEL_LIST } from '~/utils/constants';
 
 export async function action(args: ActionFunctionArgs) {
   return chatAction(args);
@@ -18,7 +19,19 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
   try {
     const options: StreamingOptions = {
       toolChoice: 'none',
-      onFinish: async ({ text: content, finishReason }) => {
+      onFinish: async ({ text: content, finishReason,  usage }) => {
+
+        // 'usage' gives us token details
+        const { promptTokens, completionTokens, totalTokens } = usage;
+        // Log model, provider, and token usage
+        //console.log(`CONTENT : ${content} END`);
+        console.log(`CONTENT: ${content.split('\n').slice(0, 3).join('\n')} END`);
+        //console.log(JSON.stringify(request, null, 2)); // Stringified with indentation
+        // cloudflare related console.log(JSON.stringify(context, null, 2)); // Stringified with indentation
+
+        console.log(`Tokens: ${promptTokens}, ${completionTokens}, ${totalTokens}`);
+
+
         if (finishReason !== 'length') {
           return stream.close();
         }
