@@ -4,13 +4,10 @@ export const WORK_DIR_NAME = 'project';
 export const WORK_DIR = `/home/${WORK_DIR_NAME}`;
 export const MODIFICATIONS_TAG_NAME = 'bolt_file_modifications';
 export const MODEL_REGEX = /^\[Model: (.*?)\]\n\n/;
-export const DEFAULT_MODEL = 'Gemini 1.5 Flash';
+export const DEFAULT_MODEL = 'gemini-1.5-flash-latest';
 export const DEFAULT_PROVIDER = 'Google';
 
 const staticModels: ModelInfo[] = [
-//github should be at the top, if I want to use it as duplicate model name
-  { name: 'gpt-4o', label: 'github/gpt-40', provider: 'OpenAILike' },
-  { name: 'gpt-4o-mini', label: 'github/gpt-40-mini', provider: 'OpenAILike' },
   { name: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet', provider: 'Anthropic' },
   { name: 'gpt-4o', label: 'GPT-4o', provider: 'OpenAI' },
   { name: 'anthropic/claude-3.5-sonnet', label: 'Anthropic: Claude 3.5 Sonnet (OpenRouter)', provider: 'OpenRouter' },
@@ -50,6 +47,10 @@ const staticModels: ModelInfo[] = [
   { name: 'mistral-small-latest', label: 'Mistral Small', provider: 'Mistral' },
   { name: 'codestral-latest', label: 'Codestral', provider: 'Mistral' },
   { name: 'mistral-large-latest', label: 'Mistral Large Latest', provider: 'Mistral' },
+  //github should be at the top, if I want to use it as duplicate model name
+  { name: 'gpt-4o', label: 'github/gpt-40', provider: 'OpenAILike' },
+  { name: 'gpt-4o-mini', label: 'github/gpt-40-mini', provider: 'OpenAILike' },
+  
 ];
 
 export let MODEL_LIST: ModelInfo[] = [...staticModels];

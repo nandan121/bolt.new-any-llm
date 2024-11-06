@@ -24,48 +24,57 @@ export type Messages = Message[];
 
 export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 
-function extractModelFromMessage(message: Message): { model: string; content: string } {
+function extractPropertiesFromMessage(message: Message): { model: string; provider: string; content: string } {
   const modelRegex = /^\[Model: (.*?)\]\n\n/;
-  const match = message.content.match(modelRegex);
+  const providerRegex = /\[Provider: (.*?)\]\n\n/;
 
-  if (match) {
-    const model = match[1];
-    const content = message.content.replace(modelRegex, '');
-    return { model, content };
-  }
+  // Extract model
+  const modelMatch = message.content.match(modelRegex);
+  const model = modelMatch ? modelMatch[1] : DEFAULT_MODEL;
 
-  // Default model if not specified
-  return { model: DEFAULT_MODEL, content: message.content };
+  // Extract provider
+  const providerMatch = message.content.match(providerRegex);
+  const provider = providerMatch ? providerMatch[1] : DEFAULT_PROVIDER;
+
+  // Remove model and provider lines from content
+  const cleanedContent = message.content
+    .replace(modelRegex, '')
+    .replace(providerRegex, '')
+    .trim();
+
+  return { model, provider, content: cleanedContent };
 }
 
 export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
   let currentModel = DEFAULT_MODEL;
+  let currentProvider = DEFAULT_PROVIDER;
+
   const processedMessages = messages.map((message) => {
     if (message.role === 'user') {
-      const { model, content } = extractModelFromMessage(message);
+      const { model, provider, content } = extractPropertiesFromMessage(message);
       console.log(`test model:${model}`);
-      if (model && MODEL_LIST.find((m) => m.name === model)) {
-        currentModel = model; // Update the current model
+      if (MODEL_LIST.find((m) => m.name === model)) {
+        currentModel = model;
       }
+
+      currentProvider = provider;
+
       return { ...message, content };
     }
-    return message;
+
+    return message; // No changes for non-user messages
   });
 
-  const provider = MODEL_LIST.find((model) => model.name === currentModel)?.provider || DEFAULT_PROVIDER;
-  console.log(`ModelUsed ${provider} ${currentModel}`);
+  console.log(`ModelUsed ${currentProvider} ${currentModel}`);
   //console.log(JSON.stringify(env, null, 2));    
   //console.log(JSON.stringify(processedMessages), null, 2) ;
   const tmpContent=processedMessages[processedMessages.length - 1].content;
   console.log(`Last message: ${tmpContent.split('\n').slice(0, 3).join('\n')} END`);
 
   return _streamText({
-    model: getModel(provider, currentModel, env),
+    model: getModel(currentProvider, currentModel, env),
     system: getSystemPrompt(),
     maxTokens: MAX_TOKENS,
-    // headers: {
-    //   'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-    // },
     messages: convertToCoreMessages(processedMessages),
     ...options,
   });
