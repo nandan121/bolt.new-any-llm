@@ -23,6 +23,8 @@ const staticModels: ModelInfo[] = [
   { name: 'qwen/qwen-110b-chat', label: 'OpenRouter Qwen 110b Chat (OpenRouter)', provider: 'OpenRouter' },
   { name: 'cohere/command', label: 'Cohere Command (OpenRouter)', provider: 'OpenRouter' },
   { name: 'gemini-1.5-flash-latest', label: 'Gemini 1.5 Flash', provider: 'Google' },
+  { name: 'gemini-1.5-pro-002', label: 'Gemini 1.5 Pro 002', provider: 'Google'},
+  { name: 'gemini-1.5-flash-002', label: 'Gemini 1.5 Flash 002', provider: 'Google' },
   { name: 'gemini-1.5-pro-latest', label: 'Gemini 1.5 Pro', provider: 'Google'},
   { name: 'llama-3.1-70b-versatile', label: 'Llama 3.1 70b (Groq)', provider: 'Groq' },
   { name: 'llama-3.1-8b-instant', label: 'Llama 3.1 8b (Groq)', provider: 'Groq' },
