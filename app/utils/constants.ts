@@ -50,6 +50,9 @@ const staticModels: ModelInfo[] = [
   //github should be at the top, if I want to use it as duplicate model name
   { name: 'gpt-4o', label: 'github/gpt-40', provider: 'OpenAILike' },
   { name: 'gpt-4o-mini', label: 'github/gpt-40-mini', provider: 'OpenAILike' },
+  { name: 'mistral-small-latest', label: 'litellm/mistral-small-latest', provider: 'OpenAILike' },
+  { name: 'command-r', label: 'litellm/command-r', provider: 'OpenAILike' },
+  { name: 'sambanova/Meta-Llama-3.1-8B-Instruct', label: 'litellm/sambanova/Meta-Llama-3.1-8B-Instruct', provider: 'OpenAILike' },
   
 ];
 
