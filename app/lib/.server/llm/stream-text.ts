@@ -43,6 +43,7 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
   const processedMessages = messages.map((message) => {
     if (message.role === 'user') {
       const { model, content } = extractModelFromMessage(message);
+      console.log(`test model:${model}`);
       if (model && MODEL_LIST.find((m) => m.name === model)) {
         currentModel = model; // Update the current model
       }

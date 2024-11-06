@@ -4,10 +4,13 @@ export const WORK_DIR_NAME = 'project';
 export const WORK_DIR = `/home/${WORK_DIR_NAME}`;
 export const MODIFICATIONS_TAG_NAME = 'bolt_file_modifications';
 export const MODEL_REGEX = /^\[Model: (.*?)\]\n\n/;
-export const DEFAULT_MODEL = 'claude-3-5-sonnet-20240620';
-export const DEFAULT_PROVIDER = 'Anthropic';
+export const DEFAULT_MODEL = 'Gemini 1.5 Flash';
+export const DEFAULT_PROVIDER = 'Google';
 
 const staticModels: ModelInfo[] = [
+//github should be at the top, if I want to use it as duplicate model name
+  { name: 'gpt-4o', label: 'github/gpt-40', provider: 'OpenAILike' },
+  { name: 'gpt-4o-mini', label: 'github/gpt-40-mini', provider: 'OpenAILike' },
   { name: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet', provider: 'Anthropic' },
   { name: 'gpt-4o', label: 'GPT-4o', provider: 'OpenAI' },
   { name: 'anthropic/claude-3.5-sonnet', label: 'Anthropic: Claude 3.5 Sonnet (OpenRouter)', provider: 'OpenRouter' },
@@ -107,6 +110,10 @@ async function getOpenAILikeModels(): Promise<ModelInfo[]> {
 async function initializeModelList(): Promise<void> {
   const ollamaModels = await getOllamaModels();
   const openAiLikeModels = await getOpenAILikeModels();
+  console.log(`Number of openAiLikeModels loaded : ${openAiLikeModels.length}`);
+  openAiLikeModels.forEach((modelInfo) => {
+    console.log(`${JSON.stringify(modelInfo, null, 2)}`); // Pretty-prints with indentation
+  });
   MODEL_LIST = [...ollamaModels,...openAiLikeModels, ...staticModels];
 }
 initializeModelList().then();
