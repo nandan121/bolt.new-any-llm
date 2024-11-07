@@ -17,5 +17,8 @@ export function UserMessage({ content }: UserMessageProps) {
 }
 
 function sanitizeUserMessage(content: string) {
-  return content.replace(modificationsRegex, '').replace(MODEL_REGEX, '').trim();
+// nice to have the model name and provider in the chat
+  return content.replace(modificationsRegex, '').replace(MODEL_REGEX, '$1').replace(PROVIDER_REGEX, ' ($1)\n\n').trim();
+
+//  return content.replace(modificationsRegex, '').replace(MODEL_REGEX, '').trim();
 }
