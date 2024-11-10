@@ -28,5 +28,5 @@ runs:
     - name: Install dependencies and build project
       shell: bash
       run: |
-        pnpm install
+        pnpm install --no-frozen-lockfile
         pnpm run build
