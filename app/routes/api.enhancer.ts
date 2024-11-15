@@ -12,12 +12,15 @@ export async function action(args: ActionFunctionArgs) {
 }
 
 async function enhancerAction({ context, request }: ActionFunctionArgs) {
-  const { message, model, provider, apiKeys } = await request.json<{ 
+  const { message, model, provider: originalProvider, apiKeys } = await request.json<{
     message: string;
     model: string;
-    provider: string;
+    provider: { name: string };
     apiKeys?: Record<string, string>;
   }>();
+
+  // Extract provider.name and reassign to provider
+  const provider = originalProvider.name;
 
   // Validate 'model' and 'provider' fields
   if (!model || typeof model !== 'string') {
