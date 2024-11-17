@@ -70,7 +70,7 @@
 #        activeVenv = "source venvlitellm/bin/activate && litellm --config config.yaml --detailed_debug 2>&1 >>litellm.log";
 #        runLitellm = "";
         # files to open when the workspace is (re)opened. It seems to open only the last in the list!!!
-        default.openFiles = [  ".env.local" ];
+        default.openFiles = [  ".env.local" ".idx/dev.nix" ];
       };
     };
   };
